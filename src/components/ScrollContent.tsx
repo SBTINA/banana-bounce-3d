@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, ArrowDown, Brain, Video, BarChart3, Users, ExternalLink, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import BananaExperience from '@/components/sections/BananaExperience';
 
 interface ScrollContentProps {
   scrollProgress: number;
@@ -217,6 +218,9 @@ export default function ScrollContent({ scrollProgress }: ScrollContentProps) {
           </div>
         </div>
       </section>
+
+      {/* ========== BANANA EXPERIENCE SECTION (Isolated, between Cases and Contact) ========== */}
+      <BananaExperience />
 
       {/* Scene 5: Banana Universe / Fall (0.65 - 0.85) */}
       <section 
