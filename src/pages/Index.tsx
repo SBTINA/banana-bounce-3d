@@ -1,58 +1,26 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import LoadingScreen from '@/components/LoadingScreen';
-import BananaJourney from '@/components/3d/BananaJourney';
-import ScrollContent from '@/components/ScrollContent';
 import Navigation from '@/components/Navigation';
-
-gsap.registerPlugin(ScrollTrigger);
+import HeroSection from '@/components/sections/HeroSection';
+import AboutSection from '@/components/sections/AboutSection';
+import ServicesSection from '@/components/sections/ServicesSection';
+import CasesSection from '@/components/sections/CasesSection';
+import BananaUniverseSection from '@/components/sections/BananaUniverseSection';
+import ContactSection from '@/components/sections/ContactSection';
+import Footer from '@/components/Footer';
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleLoadingComplete = useCallback(() => {
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = Math.min(1, Math.max(0, scrollTop / docHeight));
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLoading]);
-
   return (
-    <>
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          <LoadingScreen key="loading" onComplete={handleLoadingComplete} />
-        )}
-      </AnimatePresence>
-
-      {!isLoading && (
-        <div ref={containerRef} className="relative bg-background text-foreground">
-          {/* Navigation */}
-          <Navigation />
-          
-          {/* Fixed 3D Canvas */}
-          <BananaJourney scrollProgress={scrollProgress} />
-          
-          {/* Scrollable Content Overlay */}
-          <ScrollContent scrollProgress={scrollProgress} />
-        </div>
-      )}
-    </>
+    <div className="relative bg-background text-foreground overflow-x-hidden">
+      <Navigation />
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <ServicesSection />
+        <CasesSection />
+        <BananaUniverseSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </div>
   );
 };
 
