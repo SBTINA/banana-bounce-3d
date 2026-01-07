@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { ExternalLink, Play } from 'lucide-react';
+import WaterRippleBorder from '../effects/WaterRippleBorder';
 
 const cases = [
   {
@@ -74,64 +75,64 @@ export default function CasesSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               onMouseEnter={() => setHoveredCase(index)}
               onMouseLeave={() => setHoveredCase(null)}
-              className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer"
+              className="group relative"
             >
-              {/* Background Image */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ 
-                  backgroundImage: `url(${caseItem.image})`,
-                  backgroundColor: 'hsl(0, 0%, 10%)'
-                }}
-              />
-              
-              {/* Overlay */}
-              <div className={`absolute inset-0 transition-all duration-500 ${
-                hoveredCase === index 
-                  ? 'bg-gradient-to-t from-background via-background/80 to-transparent' 
-                  : 'bg-gradient-to-t from-background/80 via-transparent to-transparent'
-              }`} />
+              <WaterRippleBorder
+                borderRadius={16}
+                borderWidth={2}
+                isActive={hoveredCase === index}
+                className="aspect-[4/3] overflow-hidden cursor-pointer"
+              >
+                {/* Background Image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                  style={{ 
+                    backgroundImage: `url(${caseItem.image})`,
+                    backgroundColor: 'hsl(0, 0%, 10%)'
+                  }}
+                />
+                
+                {/* Overlay */}
+                <div className={`absolute inset-0 transition-all duration-500 ${
+                  hoveredCase === index 
+                    ? 'bg-gradient-to-t from-background via-background/80 to-transparent' 
+                    : 'bg-gradient-to-t from-background/80 via-transparent to-transparent'
+                }`} />
 
-              {/* Border Glow */}
-              <div className={`absolute inset-0 rounded-2xl border-2 transition-all duration-500 ${
-                hoveredCase === index 
-                  ? 'border-primary shadow-[inset_0_0_30px_hsl(48,100%,50%,0.2)]' 
-                  : 'border-transparent'
-              }`} />
+                {/* Content */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                  <motion.span
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0.7, y: 0 }}
+                    className="text-primary font-body text-xs tracking-widest uppercase mb-2"
+                  >
+                    {caseItem.category}
+                  </motion.span>
+                  <h3 className="font-display text-2xl md:text-3xl text-card-foreground group-hover:text-primary transition-colors duration-300">
+                    {caseItem.name}
+                  </h3>
 
-              {/* Content */}
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <motion.span
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0.7, y: 0 }}
-                  className="text-primary font-body text-xs tracking-widest uppercase mb-2"
-                >
-                  {caseItem.category}
-                </motion.span>
-                <h3 className="font-display text-2xl md:text-3xl text-card-foreground group-hover:text-primary transition-colors duration-300">
-                  {caseItem.name}
-                </h3>
+                  {/* Hover Actions */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex gap-3 mt-4"
+                  >
+                    <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
+                      <Play className="w-4 h-4" />
+                    </button>
+                    <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
+                      <ExternalLink className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                </div>
 
-                {/* Hover Actions */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex gap-3 mt-4"
-                >
-                  <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
-                    <Play className="w-4 h-4" />
-                  </button>
-                  <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
-                    <ExternalLink className="w-4 h-4" />
-                  </button>
-                </motion.div>
-              </div>
-
-              {/* Index Number */}
-              <span className="absolute top-4 right-4 font-display text-4xl text-primary/20 group-hover:text-primary/40 transition-colors duration-300">
-                0{index + 1}
-              </span>
+                {/* Index Number */}
+                <span className="absolute top-4 right-4 font-display text-4xl text-primary/20 group-hover:text-primary/40 transition-colors duration-300">
+                  0{index + 1}
+                </span>
+              </WaterRippleBorder>
             </motion.div>
           ))}
         </div>
