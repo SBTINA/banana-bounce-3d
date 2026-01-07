@@ -2,38 +2,44 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { ExternalLink, Play } from 'lucide-react';
-import WaterRippleBorder from '../effects/WaterRippleBorder';
+import WaterWaveImage from '../effects/WaterWaveImage';
 
 const cases = [
   {
     name: 'Snapp',
     category: 'Digital Campaign',
     image: 'https://fardaai.dm2.ir/wp-content/uploads/2025/09/Snapp.webp',
+    video: 'https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
   },
   {
     name: 'Kaleh',
     category: 'Brand Strategy',
     image: 'https://fardaai.dm2.ir/wp-content/uploads/2025/09/%DA%A9%D8%A7%D9%84%D9%87.webp',
+    video: 'https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
   },
   {
     name: 'DigiKala',
     category: 'Video Production',
     image: 'https://fardaai.dm2.ir/wp-content/uploads/2025/09/%D8%AF%DB%8C%D8%AC%DB%8C-%DA%A9%D8%A7%D9%84%D8%A7.webp',
+    video: 'https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
   },
   {
     name: 'FilFil',
     category: 'AI Campaign',
     image: 'https://fardaai.dm2.ir/wp-content/uploads/2025/09/%D9%81%DB%8C%D9%84%D9%81%DB%8C%D9%84.webp',
+    video: 'https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
   },
   {
     name: 'Costco Iran',
     category: 'Content Strategy',
     image: 'https://fardaai.dm2.ir/wp-content/uploads/2025/09/%DA%A9%D8%A7%D8%B3%D8%AA%DA%A9%D9%88-2.webp',
+    video: 'https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
   },
   {
     name: 'Nan Avaran',
     category: 'Video Production',
     image: 'https://fardaai.dm2.ir/wp-content/uploads/2025/09/%D9%86%D8%A7%D9%86-%D8%A2%D9%88%D8%B1%D8%A7%D9%86.webp',
+    video: 'https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4',
   },
 ];
 
@@ -77,30 +83,25 @@ export default function CasesSection() {
               onMouseLeave={() => setHoveredCase(null)}
               className="group relative"
             >
-              <WaterRippleBorder
-                borderRadius={16}
-                borderWidth={2}
-                isActive={hoveredCase === index}
-                className="aspect-[4/3] overflow-hidden cursor-pointer"
-              >
-                {/* Background Image */}
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                  style={{ 
-                    backgroundImage: `url(${caseItem.image})`,
-                    backgroundColor: 'hsl(0, 0%, 10%)'
-                  }}
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer border-2 border-primary/10 hover:border-primary/40 transition-colors duration-500">
+                {/* Water Wave Image with Video */}
+                <WaterWaveImage
+                  src={caseItem.image}
+                  videoSrc={caseItem.video}
+                  alt={caseItem.name}
+                  className="absolute inset-0"
+                  isHovered={hoveredCase === index}
                 />
                 
                 {/* Overlay */}
-                <div className={`absolute inset-0 transition-all duration-500 ${
+                <div className={`absolute inset-0 transition-all duration-500 pointer-events-none ${
                   hoveredCase === index 
-                    ? 'bg-gradient-to-t from-background via-background/80 to-transparent' 
+                    ? 'bg-gradient-to-t from-background via-background/60 to-transparent' 
                     : 'bg-gradient-to-t from-background/80 via-transparent to-transparent'
                 }`} />
 
                 {/* Content */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                <div className="absolute inset-0 p-6 flex flex-col justify-end pointer-events-none">
                   <motion.span
                     initial={{ opacity: 0, y: 10 }}
                     animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0.7, y: 0 }}
@@ -117,7 +118,7 @@ export default function CasesSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                     transition={{ duration: 0.3 }}
-                    className="flex gap-3 mt-4"
+                    className="flex gap-3 mt-4 pointer-events-auto"
                   >
                     <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
                       <Play className="w-4 h-4" />
@@ -129,10 +130,10 @@ export default function CasesSection() {
                 </div>
 
                 {/* Index Number */}
-                <span className="absolute top-4 right-4 font-display text-4xl text-primary/20 group-hover:text-primary/40 transition-colors duration-300">
+                <span className="absolute top-4 right-4 font-display text-4xl text-primary/20 group-hover:text-primary/40 transition-colors duration-300 pointer-events-none">
                   0{index + 1}
                 </span>
-              </WaterRippleBorder>
+              </div>
             </motion.div>
           ))}
         </div>
