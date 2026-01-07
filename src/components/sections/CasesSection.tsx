@@ -3,6 +3,8 @@ import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { ExternalLink, Play } from 'lucide-react';
 import WaterWaveImage from '../effects/WaterWaveImage';
+import Card3DWave from '../effects/Card3DWave';
+import LogoCarousel from '../effects/LogoCarousel';
 
 const cases = [
   {
@@ -81,87 +83,76 @@ export default function CasesSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               onMouseEnter={() => setHoveredCase(index)}
               onMouseLeave={() => setHoveredCase(null)}
-              className="group relative"
+              className="group"
             >
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer border-2 border-primary/10 hover:border-primary/40 transition-colors duration-500">
-                {/* Water Wave Image with Video */}
-                <WaterWaveImage
-                  src={caseItem.image}
-                  videoSrc={caseItem.video}
-                  alt={caseItem.name}
-                  className="absolute inset-0"
-                  isHovered={hoveredCase === index}
-                />
-                
-                {/* Overlay */}
-                <div className={`absolute inset-0 transition-all duration-500 pointer-events-none ${
-                  hoveredCase === index 
-                    ? 'bg-gradient-to-t from-background via-background/60 to-transparent' 
-                    : 'bg-gradient-to-t from-background/80 via-transparent to-transparent'
-                }`} />
+              <Card3DWave className="aspect-[4/3]" intensity={12}>
+                <div className="relative w-full h-full cursor-pointer">
+                  {/* Water Wave Image with Video */}
+                  <WaterWaveImage
+                    src={caseItem.image}
+                    videoSrc={caseItem.video}
+                    alt={caseItem.name}
+                    className="absolute inset-0"
+                    isHovered={hoveredCase === index}
+                  />
+                  
+                  {/* Overlay */}
+                  <div className={`absolute inset-0 transition-all duration-500 pointer-events-none ${
+                    hoveredCase === index 
+                      ? 'bg-gradient-to-t from-background via-background/60 to-transparent' 
+                      : 'bg-gradient-to-t from-background/80 via-transparent to-transparent'
+                  }`} />
 
-                {/* Content */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-end pointer-events-none">
-                  <motion.span
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0.7, y: 0 }}
-                    className="text-primary font-body text-xs tracking-widest uppercase mb-2"
-                  >
-                    {caseItem.category}
-                  </motion.span>
-                  <h3 className="font-display text-2xl md:text-3xl text-card-foreground group-hover:text-primary transition-colors duration-300">
-                    {caseItem.name}
-                  </h3>
+                  {/* Content */}
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end pointer-events-none">
+                    <motion.span
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0.7, y: 0 }}
+                      className="text-primary font-body text-xs tracking-widest uppercase mb-2"
+                    >
+                      {caseItem.category}
+                    </motion.span>
+                    <h3 className="font-display text-2xl md:text-3xl text-card-foreground group-hover:text-primary transition-colors duration-300">
+                      {caseItem.name}
+                    </h3>
 
-                  {/* Hover Actions */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex gap-3 mt-4 pointer-events-auto"
-                  >
-                    <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
-                      <Play className="w-4 h-4" />
-                    </button>
-                    <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
-                      <ExternalLink className="w-4 h-4" />
-                    </button>
-                  </motion.div>
+                    {/* Hover Actions */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={hoveredCase === index ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex gap-3 mt-4 pointer-events-auto"
+                    >
+                      <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
+                        <Play className="w-4 h-4" />
+                      </button>
+                      <button className="w-10 h-10 bg-primary/20 hover:bg-primary/40 rounded-full flex items-center justify-center text-primary transition-colors duration-300">
+                        <ExternalLink className="w-4 h-4" />
+                      </button>
+                    </motion.div>
+                  </div>
+
+                  {/* Index Number */}
+                  <span className="absolute top-4 right-4 font-display text-4xl text-primary/20 group-hover:text-primary/40 transition-colors duration-300 pointer-events-none">
+                    0{index + 1}
+                  </span>
                 </div>
-
-                {/* Index Number */}
-                <span className="absolute top-4 right-4 font-display text-4xl text-primary/20 group-hover:text-primary/40 transition-colors duration-300 pointer-events-none">
-                  0{index + 1}
-                </span>
-              </div>
+              </Card3DWave>
             </motion.div>
           ))}
         </div>
 
-        {/* Brand Logos Marquee */}
+        {/* Brand Logos Carousel */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 0.8 }}
-          className="mt-20 overflow-hidden"
+          className="mt-20"
         >
           <p className="text-center text-muted-foreground font-body text-sm mb-8 tracking-widest uppercase">
             Trusted by Leading Brands
           </p>
-          <div className="flex animate-scroll">
-            {[...cases, ...cases].map((brand, index) => (
-              <div
-                key={`brand-${index}`}
-                className="flex-shrink-0 mx-8 w-24 h-24 bg-card rounded-xl border border-primary/10 flex items-center justify-center p-4 hover:border-primary/30 transition-colors duration-300"
-              >
-                <img 
-                  src={brand.image} 
-                  alt={brand.name}
-                  className="w-full h-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
-                />
-              </div>
-            ))}
-          </div>
+          <LogoCarousel logos={cases} speed={25} itemSize={96} />
         </motion.div>
       </div>
     </section>
